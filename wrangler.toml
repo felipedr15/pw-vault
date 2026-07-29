@@ -1,0 +1,36 @@
+name = "pw-vault-api"
+main = "worker/index.js"
+compatibility_date = "2024-12-01"
+
+# Account and zone IDs — fill these in or set via environment variables
+# account_id = "your-account-id"
+
+# For local dev, ALLOWED_ORIGIN is overridden via .dev.vars
+# In production, set this to your Vercel domain (comma-separated for multiple)
+[vars]
+ALLOWED_ORIGIN = "https://mypwvault.vercel.app,https://pw-vault-5ae5j5wk9-frojas15.vercel.app"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pw-vault-db"
+database_id = "ede7411b-cbe6-4098-a8ff-41376d53088c"
+
+# Uncomment for a preview/staging environment
+# [env.staging]
+# name = "pw-vault-api-staging"
+# [env.staging.vars]
+# ALLOWED_ORIGIN = "*"
+# [[env.staging.d1_databases]]
+# binding = "DB"
+# database_name = "pw-vault-db-staging"
+# database_id = "YOUR_STAGING_D1_DATABASE_ID"
+
+# Uncomment and set for production
+# [env.production]
+# name = "pw-vault-api"
+# [env.production.vars]
+# ALLOWED_ORIGIN = "https://your-app-domain.com"
+# [[env.production.d1_databases]]
+# binding = "DB"
+# database_name = "pw-vault-db"
+# database_id = "YOUR_D1_DATABASE_ID"

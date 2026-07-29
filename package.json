@@ -7,7 +7,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "worker:dev": "npx wrangler dev",
+    "worker:deploy": "npx wrangler deploy",
+    "worker:tail": "npx wrangler tail",
+    "db:create": "npx wrangler d1 create pw-vault-db",
+    "db:migrate": "npx wrangler d1 execute pw-vault-db --file=worker/schema.sql",
+    "db:migrate:local": "npx wrangler d1 execute pw-vault-db --local --file=worker/schema.sql"
   },
   "dependencies": {
     "react": "^19.2.5",
@@ -31,6 +37,7 @@
     "globals": "^17.5.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "wrangler": "^4.115.0"
   }
 }
