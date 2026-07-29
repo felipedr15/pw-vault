@@ -1,5 +1,5 @@
 name = "pw-vault-api"
-main = "worker/index.js"
+main = "index.js"
 compatibility_date = "2024-12-01"
 
 [observability]
@@ -8,9 +8,6 @@ enabled = true
 [observability.logs]
 enabled = true
 invocation_logs = true
-
-# Account ID (uncomment if needed)
-# account_id = "c2d12008eaa79cc26054336a7fe3d9c0"
 
 [vars]
 ALLOWED_ORIGIN = "*"

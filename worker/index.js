@@ -3,14 +3,22 @@
 // Environment variable ALLOWED_ORIGIN restricts CORS (defaults to '*' for dev)
 
 function getCorsHeaders(request, env) {
-  const allowedOrigin = env.ALLOWED_ORIGIN || '*'
-  // If a specific origin is configured, validate the request origin
-  if (allowedOrigin !== '*') {
-    const requestOrigin = request.headers.get('Origin') || ''
-    const allowed = allowedOrigin.split(',').map(o => o.trim())
-    if (!allowed.includes(requestOrigin)) {
-      return null // Origin not allowed
+  const allowedOrigin = (env.ALLOWED_ORIGIN || '*').trim()
+  const requestOrigin = request.headers.get('Origin') || ''
+
+  // Wildcard — allow everything
+  if (allowedOrigin === '*') {
+    return {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Max-Age': '86400',
     }
+  }
+
+  // Check if request origin is in the comma-separated allow list
+  const allowed = allowedOrigin.split(',').map(o => o.trim())
+  if (allowed.includes(requestOrigin)) {
     return {
       'Access-Control-Allow-Origin': requestOrigin,
       'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
@@ -19,12 +27,10 @@ function getCorsHeaders(request, env) {
       'Vary': 'Origin',
     }
   }
-  return {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Max-Age': '86400',
-  }
+
+  // Origin not allowed — but still return CORS headers to avoid opaque errors
+  // Just don't include Access-Control-Allow-Origin so browser blocks it cleanly
+  return null
 }
 
 function respond(data, status = 200, corsHeaders = {}) {
