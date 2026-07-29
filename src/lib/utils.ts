@@ -57,6 +57,51 @@ export function getFaviconUrl(website: string): string {
   }
 }
 
+export function guessIconUrl(title: string, website: string): string {
+  if (website) return getFaviconUrl(website)
+  // Try to guess a domain from the title
+  const clean = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim()
+  if (!clean) return ''
+  // Common brand mappings
+  const brandMap: Record<string, string> = {
+    'amazon': 'amazon.com', 'att': 'att.com', 'at&t': 'att.com',
+    'apple': 'apple.com', 'bank of america': 'bankofamerica.com',
+    'capital one': 'capitalone.com', 'capitalone': 'capitalone.com',
+    'chase': 'chase.com', 'costco': 'costco.com',
+    'discord': 'discord.com', 'disney': 'disney.com', 'disney+': 'disney.com',
+    'dropbox': 'dropbox.com', 'ebay': 'ebay.com',
+    'facebook': 'facebook.com', 'github': 'github.com',
+    'gmail': 'gmail.com', 'google': 'google.com',
+    'hulu': 'hulu.com', 'instagram': 'instagram.com',
+    'linkedin': 'linkedin.com', 'microsoft': 'microsoft.com',
+    'netflix': 'netflix.com', 'outlook': 'outlook.com',
+    'paypal': 'paypal.com', 'pinterest': 'pinterest.com',
+    'reddit': 'reddit.com', 'spotify': 'spotify.com',
+    'steam': 'steampowered.com', 'target': 'target.com',
+    'tiktok': 'tiktok.com', 'twitch': 'twitch.tv',
+    'twitter': 'twitter.com', 'x': 'x.com',
+    'uber': 'uber.com', 'venmo': 'venmo.com',
+    'verizon': 'verizon.com', 'walmart': 'walmart.com',
+    'wells fargo': 'wellsfargo.com', 'whatsapp': 'whatsapp.com',
+    'yahoo': 'yahoo.com', 'youtube': 'youtube.com',
+    'zoom': 'zoom.us', 'tmobile': 'tmobile.com', 't-mobile': 'tmobile.com',
+    'spectrum': 'spectrum.net', 'comcast': 'xfinity.com', 'xfinity': 'xfinity.com',
+    'usaa': 'usaa.com', 'citi': 'citi.com', 'citibank': 'citi.com',
+    'schwab': 'schwab.com', 'fidelity': 'fidelity.com',
+    'robinhood': 'robinhood.com', 'coinbase': 'coinbase.com',
+  }
+  // Check exact match first
+  const lower = title.toLowerCase().trim()
+  if (brandMap[lower]) return getFaviconUrl(brandMap[lower])
+  // Check if title contains a known brand
+  for (const [brand, domain] of Object.entries(brandMap)) {
+    if (lower.includes(brand)) return getFaviconUrl(domain)
+  }
+  // Last resort: try title as a domain directly (e.g. "hbo" → hbo.com)
+  const slug = clean.replace(/\s+/g, '')
+  return `https://www.google.com/s2/favicons?sz=32&domain=${slug}.com`
+}
+
 export async function lazyLoadXLSX() {
   const { read, utils } = await import('xlsx')
   return { read, utils }

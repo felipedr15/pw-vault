@@ -1,5 +1,5 @@
 import type { VaultItem } from '../types'
-import { getFaviconUrl, getPasswordAge } from '../lib/utils'
+import { guessIconUrl, getPasswordAge } from '../lib/utils'
 
 type ItemCardProps = {
   item: VaultItem
@@ -9,7 +9,7 @@ type ItemCardProps = {
 }
 
 export function ItemCard({ item, onOpen, onCopyUsername, onCopyPassword }: ItemCardProps) {
-  const faviconUrl = item.website ? getFaviconUrl(item.website) : ''
+  const faviconUrl = guessIconUrl(item.title, item.website)
   const age = getPasswordAge(item.updatedAt)
 
   return (

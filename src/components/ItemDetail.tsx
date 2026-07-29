@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { VaultItem } from '../types'
-import { getFaviconUrl, getPasswordAge } from '../lib/utils'
+import { guessIconUrl, getPasswordAge } from '../lib/utils'
 
 type ItemDetailProps = {
   item: VaultItem
@@ -12,7 +12,7 @@ type ItemDetailProps = {
 
 export function ItemDetail({ item, onEdit, onDelete, onCopyUsername, onCopyPassword }: ItemDetailProps) {
   const [showPassword, setShowPassword] = useState(false)
-  const faviconUrl = item.website ? getFaviconUrl(item.website) : ''
+  const faviconUrl = guessIconUrl(item.title, item.website)
   const age = getPasswordAge(item.updatedAt)
 
   return (
