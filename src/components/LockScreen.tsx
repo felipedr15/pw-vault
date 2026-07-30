@@ -56,12 +56,7 @@ export function LockScreen({
         <div className="lock-brand">
           <img src="/app-icon.svg" alt="Password Vault" className="lock-brand-icon" width="72" height="72" />
           <h1>Password Vault</h1>
-          <p>End-to-end encrypted. Local-first. Your passwords, your control.</p>
         </div>
-        <button type="button" className="theme-toggle" onClick={toggleTheme} style={{ marginBottom: '1rem' }}>
-          <span className="theme-toggle-icon">{theme === 'dark' ? '☀️' : '🌙'}</span>
-          {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-        </button>
         {!hasVault ? (
           <form onSubmit={handleCreate} className="stack">
             <h2>Create your vault</h2>

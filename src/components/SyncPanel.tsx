@@ -29,7 +29,7 @@ export function SyncPanel({ onSubmit, onCancel, error }: SyncPanelProps) {
         </div>
         <label>
           Worker URL
-          <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://your-worker.workers.dev" required />
+          <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://api.mdlo.dev" required />
         </label>
         <label>
           Username

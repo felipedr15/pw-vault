@@ -13,7 +13,7 @@ invocation_logs = true
 # account_id = "c2d12008eaa79cc26054336a7fe3d9c0"
 
 [vars]
-ALLOWED_ORIGIN = "*"
+ALLOWED_ORIGIN = "https://vault.mdlo.dev"
 
 [[d1_databases]]
 binding = "DB"

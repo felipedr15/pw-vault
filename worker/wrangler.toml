@@ -10,7 +10,7 @@ enabled = true
 invocation_logs = true
 
 [vars]
-ALLOWED_ORIGIN = "*"
+ALLOWED_ORIGIN = "https://vault.mdlo.dev"
 
 [[d1_databases]]
 binding = "DB"
