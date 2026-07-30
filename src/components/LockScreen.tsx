@@ -1,11 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import type { Theme } from '../hooks/useTheme'
 
 type LockScreenProps = {
   hasVault: boolean
-  theme: Theme
-  toggleTheme: () => void
   webauthnAvailable: boolean
   onCreateVault: (password: string) => Promise<void>
   onUnlock: (password: string) => Promise<void>
@@ -15,8 +12,6 @@ type LockScreenProps = {
 
 export function LockScreen({
   hasVault,
-  theme,
-  toggleTheme,
   webauthnAvailable,
   onCreateVault,
   onUnlock,

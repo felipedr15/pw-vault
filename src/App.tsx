@@ -623,8 +623,6 @@ function App() {
       {isLocked ? (
         <LockScreen
           hasVault={hasVault}
-          theme={theme}
-          toggleTheme={toggleTheme}
           webauthnAvailable={webauthnAvailable}
           onCreateVault={handleCreateVault}
           onUnlock={handleUnlock}
