@@ -54,7 +54,7 @@ export function LockScreen({
     <div className="lock-screen">
       <div className="card lock-card">
         <div className="lock-brand">
-          <div className="lock-brand-icon">🔐</div>
+          <img src="/app-icon.svg" alt="Password Vault" className="lock-brand-icon" width="72" height="72" />
           <h1>Password Vault</h1>
           <p>End-to-end encrypted. Local-first. Your passwords, your control.</p>
         </div>
