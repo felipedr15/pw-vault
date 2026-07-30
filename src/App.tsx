@@ -143,6 +143,25 @@ function App() {
     setSyncStatus('idle')
   }, [])
 
+  const pullCloudVault = useCallback(async (config: SyncConfig, password: string): Promise<VaultItem[] | null> => {
+    try {
+      const res = await fetch(`${config.workerUrl}/api/vault`, {
+        headers: { Authorization: `Bearer ${config.token}` },
+      })
+      if (!res.ok) return null
+      const { blob: serverBlob } = (await res.json()) as { blob: string | null }
+      if (!serverBlob) return null
+      const payload = await decryptVault(password, serverBlob)
+      const cloudItems = (payload.items ?? []).map((i) => ({ ...i, tags: i.tags ?? [] }))
+      // Store the cloud blob locally so the vault persists
+      localStorage.setItem(STORAGE_KEY, serverBlob)
+      setHasVault(true)
+      return cloudItems
+    } catch {
+      return null
+    }
+  }, [])
+
   const handleSyncSubmit = async (url: string, username: string, password: string, isRegistering: boolean) => {
     setSyncError('')
     try {
@@ -159,8 +178,22 @@ function App() {
       setSyncConfig(newConfig)
       setSyncOpen(false)
       if (!isLocked && masterPassword) {
-        const merged = await syncMergeAndApply(newConfig, masterPassword, items)
-        setItems(merged)
+        const localBlob = localStorage.getItem(STORAGE_KEY)
+        if (!localBlob || items.length === 0) {
+          // No local vault — pull everything from the cloud
+          setSyncStatus('syncing')
+          const cloudItems = await pullCloudVault(newConfig, masterPassword)
+          if (cloudItems && cloudItems.length > 0) {
+            setItems(cloudItems)
+            setSyncStatus('synced')
+            setImportStatus(`Restored ${cloudItems.length} entries.`)
+          } else {
+            setSyncStatus(cloudItems === null ? 'error' : 'synced')
+          }
+        } else {
+          const merged = await syncMergeAndApply(newConfig, masterPassword, items)
+          setItems(merged)
+        }
       }
       setToast(`Sync ${isRegistering ? 'enabled' : 'connected'}`)
     } catch {
@@ -194,7 +227,24 @@ function App() {
   const handleUnlock = async (password: string) => {
     try {
       const blob = localStorage.getItem(STORAGE_KEY)
-      if (!blob) { setUnlockError('Could not unlock vault.'); return }
+      // If no local vault but sync is configured, try pulling from cloud
+      if (!blob) {
+        const config = syncConfigRef.current
+        if (config) {
+          const cloudItems = await pullCloudVault(config, password)
+          if (cloudItems) {
+            setMasterPassword(password)
+            setItems(cloudItems)
+            setIsLocked(false)
+            setUnlockError('')
+            setSyncStatus('synced')
+            setImportStatus(`Restored ${cloudItems.length} entries from cloud.`)
+            return
+          }
+        }
+        setUnlockError('Could not unlock vault.')
+        return
+      }
       const payload = await decryptVault(password, blob)
       const localItems = (payload.items ?? []).map((item) => ({ ...item, tags: item.tags ?? [] }))
       setMasterPassword(password)
@@ -215,7 +265,24 @@ function App() {
       const unlockedPassword = await unlockMasterPasswordWithWebAuthn()
       if (!unlockedPassword) { setUnlockError('Biometric authentication failed.'); return }
       const blob = localStorage.getItem(STORAGE_KEY)
-      if (!blob) { setUnlockError('Could not unlock vault.'); return }
+      // If no local vault but sync is configured, try pulling from cloud
+      if (!blob) {
+        const config = syncConfigRef.current
+        if (config) {
+          const cloudItems = await pullCloudVault(config, unlockedPassword)
+          if (cloudItems) {
+            setMasterPassword(unlockedPassword)
+            setItems(cloudItems)
+            setIsLocked(false)
+            setUnlockError('')
+            setSyncStatus('synced')
+            setToast('Unlocked with biometric — restored from cloud')
+            return
+          }
+        }
+        setUnlockError('Could not unlock vault.')
+        return
+      }
       const payload = await decryptVault(unlockedPassword, blob)
       const localItems = (payload.items ?? []).map((item) => ({ ...item, tags: item.tags ?? [] }))
       setMasterPassword(unlockedPassword)
