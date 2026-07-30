@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e14"/>
+      <stop offset="100%" style="stop-color:#1a1f2e"/>
+    </linearGradient>
+    <linearGradient id="shield-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4aa"/>
+      <stop offset="100%" style="stop-color:#0d80c6"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffcc;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00ffcc;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" ry="96" fill="url(#bg)"/>
+  
+  <!-- Scanlines (subtle terminal CRT feel) -->
+  <g opacity="0.04">
+    <line x1="0" y1="60" x2="512" y2="60" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="90" x2="512" y2="90" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="120" x2="512" y2="120" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="150" x2="512" y2="150" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="180" x2="512" y2="180" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="210" x2="512" y2="210" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="240" x2="512" y2="240" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="270" x2="512" y2="270" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="300" x2="512" y2="300" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="330" x2="512" y2="330" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="360" x2="512" y2="360" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="390" x2="512" y2="390" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="420" x2="512" y2="420" stroke="#00ffcc" stroke-width="1"/>
+    <line x1="0" y1="450" x2="512" y2="450" stroke="#00ffcc" stroke-width="1"/>
+  </g>
+  
+  <!-- Matrix-style binary in background -->
+  <g opacity="0.08" fill="#00ffcc" font-family="monospace" font-size="14">
+    <text x="40" y="80">01001101</text>
+    <text x="340" y="100">11010010</text>
+    <text x="60" y="440">10110101</text>
+    <text x="360" y="420">01100111</text>
+    <text x="40" y="260">1010</text>
+    <text x="420" y="280">0110</text>
+    <text x="180" y="60">110</text>
+    <text x="300" y="460">101</text>
+  </g>
+
+  <!-- Terminal prompt text at top -->
+  <g fill="#00ffcc" font-family="monospace" font-size="16" opacity="0.25">
+    <text x="56" y="130">$ vault --unlock</text>
+    <text x="56" y="400">[encrypted]</text>
+  </g>
+
+  <!-- Glow behind shield -->
+  <ellipse cx="256" cy="256" rx="100" ry="120" fill="url(#glow)"/>
+  
+  <!-- Shield shape (wireframe/outline style for tech feel) -->
+  <path d="M256 100 c-88 0 -128 28 -128 28 v140 c0 88 128 156 128 156 s128-68 128-156 V128 c0 0 -40-28 -128-28z" 
+        fill="none" stroke="url(#shield-grad)" stroke-width="4" opacity="0.3"/>
+  
+  <!-- Shield shape (solid inner) -->
+  <path d="M256 120 c-76 0 -108 24 -108 24 v120 c0 76 108 136 108 136 s108-60 108-136 V144 c0 0 -32-24 -108-24z" 
+        fill="url(#shield-grad)" opacity="0.15"/>
+  
+  <!-- Shield outline (main) -->
+  <path d="M256 120 c-76 0 -108 24 -108 24 v120 c0 76 108 136 108 136 s108-60 108-136 V144 c0 0 -32-24 -108-24z" 
+        fill="none" stroke="url(#shield-grad)" stroke-width="3"/>
+
+  <!-- Lock body (terminal green outline style) -->
+  <rect x="216" y="248" width="80" height="68" rx="8" ry="8" 
+        fill="rgba(0,212,170,0.1)" stroke="#00d4aa" stroke-width="3"/>
+  
+  <!-- Lock shackle -->
+  <path d="M232 248 v-24 c0-20 8-36 24-36 s24 16 24 36 v24" 
+        fill="none" stroke="#00d4aa" stroke-width="10" stroke-linecap="round"/>
+  
+  <!-- Keyhole (glowing) -->
+  <circle cx="256" cy="276" r="8" fill="#00ffcc"/>
+  <rect x="253" y="276" width="6" height="16" rx="3" fill="#00ffcc"/>
+  
+  <!-- Keyhole glow -->
+  <circle cx="256" cy="276" r="12" fill="none" stroke="#00ffcc" stroke-width="1" opacity="0.5"/>
+  <circle cx="256" cy="276" r="18" fill="none" stroke="#00ffcc" stroke-width="0.5" opacity="0.25"/>
+  
+  <!-- Corner brackets (terminal/HUD feel) -->
+  <g stroke="#00d4aa" stroke-width="2" fill="none" opacity="0.5">
+    <!-- Top left -->
+    <polyline points="56,80 56,56 80,56"/>
+    <!-- Top right -->
+    <polyline points="456,56 432,56 432,80"/>
+    <!-- Bottom left -->
+    <polyline points="56,432 56,456 80,456"/>
+    <!-- Bottom right -->
+    <polyline points="432,432 432,456 456,456"/>
+  </g>
+  
+  <!-- Blinking cursor -->
+  <rect x="200" y="394" width="10" height="18" fill="#00ffcc" opacity="0.6"/>
+</svg>
