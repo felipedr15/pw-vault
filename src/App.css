@@ -189,6 +189,35 @@ button:active {
   gap: 0.9rem;
 }
 
+/* ── Biometric button on lock screen ── */
+
+.biometric-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid var(--brand);
+  border-radius: 12px;
+  background: rgba(13, 128, 198, 0.08);
+  color: var(--brand);
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.biometric-btn:hover {
+  background: rgba(13, 128, 198, 0.15);
+  transform: translateY(-1px);
+}
+
+.biometric-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
 .card {
   background: linear-gradient(160deg, var(--card-bg), var(--card-bg-end));
   border: 1px solid var(--line);
@@ -317,6 +346,28 @@ label {
   gap: 0.5rem;
   border-top: 1px solid var(--line);
   padding-top: 0.75rem;
+}
+
+/* ── Settings gear button ── */
+
+.settings-gear {
+  display: none;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 150ms ease;
+}
+
+.settings-gear:hover {
+  background: var(--secondary-bg);
+  transform: none;
 }
 
 .sidebar-actions {
@@ -858,6 +909,15 @@ label {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.3rem;
+    display: none;
+  }
+
+  .sidebar-footer.settings-visible {
+    display: flex;
+  }
+
+  .settings-gear {
+    display: flex;
   }
 
   .sidebar-actions {
@@ -872,6 +932,35 @@ label {
 
   .main-panel {
     min-height: auto;
+  }
+
+  .top-bar {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 0.5rem 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .top-bar .search-wrap {
+    flex: 1 1 100%;
+    order: -1;
+  }
+
+  .top-bar .search-wrap input {
+    width: 100%;
+  }
+
+  .bar-select {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.82rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .add-btn {
+    flex: 0 0 auto;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
   }
 
   .inline > button {

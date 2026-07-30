@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import type { BeforeInstallPromptEvent, SyncConfig } from '../types'
 import type { Theme } from '../hooks/useTheme'
@@ -58,6 +59,8 @@ export function Sidebar({
   onExcelFileChange,
   onBackupFileChange,
 }: SidebarProps) {
+  const [settingsOpen, setSettingsOpen] = useState(false)
+
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -65,6 +68,15 @@ export function Sidebar({
         {installPrompt && (
           <button type="button" className="secondary small" onClick={onInstall}>Install</button>
         )}
+        <button
+          type="button"
+          className="settings-gear"
+          onClick={() => setSettingsOpen((v) => !v)}
+          aria-label="Toggle settings"
+          aria-expanded={settingsOpen}
+        >
+          ⚙️
+        </button>
       </div>
 
       <nav className="sidebar-nav">
@@ -89,7 +101,7 @@ export function Sidebar({
         ))}
       </nav>
 
-      <div className="sidebar-footer">
+      <div className={`sidebar-footer ${settingsOpen ? 'settings-visible' : ''}`}>
         <div className="sync-bar">
           {syncConfig ? (
             <div className="sync-info">

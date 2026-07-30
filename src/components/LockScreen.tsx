@@ -68,16 +68,17 @@ export function LockScreen({
         ) : (
           <form onSubmit={handleUnlock} className="stack">
             <h2>Unlock vault</h2>
+            {webauthnAvailable && (
+              <button type="button" className="biometric-btn" onClick={onUnlockBiometric}>
+                <span className="biometric-icon">🔓</span>
+                Unlock with Biometric
+              </button>
+            )}
             <label>
               Master password
               <input type="password" value={masterPassword} onChange={(e) => setMasterPassword(e.target.value)} autoComplete="current-password" required />
             </label>
             <button type="submit">Unlock</button>
-            {webauthnAvailable && (
-              <button type="button" className="secondary" onClick={onUnlockBiometric}>
-                Unlock with Biometric
-              </button>
-            )}
           </form>
         )}
         {displayError && <p className="error">{displayError}</p>}
